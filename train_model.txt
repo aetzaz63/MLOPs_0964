@@ -1,18 +1,1 @@
-# main.py
-from fastapi import FastAPI
-from pydantic import BaseModel
-import joblib
 
-# Load the model
-model = joblib.load('model.joblib')
-
-app = FastAPI()
-
-class PredictionRequest(BaseModel):
-    data: list
-
-@app.post("/predict")
-def predict(request: PredictionRequest):
-    data = request.data
-    prediction = model.predict([data])
-    return {"prediction": int(prediction[0])}
